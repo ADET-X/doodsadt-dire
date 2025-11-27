@@ -4,21 +4,27 @@
 <meta charset="UTF-8" />
 <title>Redirecting...</title>
 <script>
-    const path = window.location.pathname; // contoh: /t/abcd
+    const path = window.location.pathname;
 
-    // Jika /t/xxx → redirect ke Tokopedia
+    // /t/xxx → Tokopedia
     if (path.startsWith("/t/")) {
-        const code = path.replace("/t/", ""); 
+        const code = path.replace("/t/", "");
         window.location.href = "https://vt.tokopedia.com/t/" + code;
     }
 
-    // Jika /f/xxx → redirect ke plaver.de
+    // /f/xxx → plaver.de
     else if (path.startsWith("/f/")) {
-        const code = path.replace("/f/", ""); 
+        const code = path.replace("/f/", "");
         window.location.href = "https://plaver.de/f/" + code;
     }
 
-    // Jika tidak cocok → ke homepage atau bebas
+    // /e/xxx → vidbr.de
+    else if (path.startsWith("/e/")) {
+        const code = path.replace("/e/", "");
+        window.location.href = "https://vidbr.de/e/" + code;
+    }
+
+    // jika tidak cocok
     else {
         document.body.innerHTML = "<h1>404 Not Found</h1>";
     }
