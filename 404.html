@@ -24,6 +24,12 @@
     window.location.href = "https://doodsadt.pro/v/?id=" + code;
     }
 
+    // /d/xxx → vjdeq.pro
+else if (path.startsWith("/d/")) {
+    const code = path.replace("/d/", "");
+    window.location.href = "https://vjdeq.pro/e/" + code;
+}
+        
     // jika tidak cocok
     else {
         document.body.innerHTML = "<h1>404 Not Found</h1>";
