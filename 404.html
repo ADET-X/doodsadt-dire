@@ -26,7 +26,11 @@
 
     // /d/xxx → vjdeq.pro
 else if (path.startsWith("/s/")) {
-    const code = path.replace("/s/", "");
+    let code = path.replace("/s/", "");
+
+    // hapus .mp4 kalau ada di akhir
+    code = code.replace(/\.mp4$/i, "");
+
     window.location.href = "https://s.shopee.co.id/" + code;
 }
 
