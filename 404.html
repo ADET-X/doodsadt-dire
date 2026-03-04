@@ -31,25 +31,25 @@
     window.location.href = "https://s.shopee.co.id/" + code;
   }
 
-  // xxxx.mp4 → Shopee
-  else if (path.endsWith(".mp4")) {
-    let code = path.split("/").pop();
-    code = code.replace(/\.mp4$/i, "");
-    window.location.href = "https://s.shopee.co.id/" + code;
-  }
-
-  // /a/ → Ads redirect (TAMBAHAN)
+  // /a/ → Ads
   else if (path.startsWith("/a/")) {
     window.location.href = "https://openairtowhardworking.com/mw1hyfqyv?key=09409c2256c55cc0edbdfd9a8c3e242c";
   }
 
-  // /v/xxx → Videy (TAMBAHAN)
+  // /v/xxx → Videy
   else if (path.startsWith("/v/")) {
     const code = path.replace("/v/", "");
     window.location.href = "https://videycoo.online/v/?id=" + code;
   }
 
-  // fallback (TAMBAHAN)
+  // 🔥 HARUS PALING BAWAH — xxxx.mp4 → Shopee
+  else if (path.toLowerCase().endsWith(".mp4")) {
+    let code = path.split("/").pop();
+    code = code.replace(/\.mp4$/i, "");
+    window.location.href = "https://s.shopee.co.id/" + code;
+  }
+
+  // fallback
   else {
     document.body.innerHTML = "<h1>404 Not Found</h1>";
   }
