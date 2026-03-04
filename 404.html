@@ -1,64 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Redirecting...</title>
 <script>
-    const path = window.location.pathname;
+  const path = window.location.pathname;
 
-    // /t/xxx → Tokopedia
-    if (path.startsWith("/t/")) {
-        const code = path.replace("/t/", "");
-        window.location.href = "https://vt.tokopedia.com/t/" + code;
-    }
+  // /t/xxx → Tokopedia
+  if (path.startsWith("/t/")) {
+    const code = path.replace("/t/", "");
+    window.location.href = "https://vt.tokopedia.com/" + code;
+  }
 
-    // /f/xxx → plaver.de
-    else if (path.startsWith("/f/")) {
-        const code = path.replace("/f/", "");
-        window.location.href = "https://vids1.online/f/" + code;
-    }
+  // /f/xxx → Player
+  else if (path.startsWith("/f/")) {
+    const code = path.replace("/f/", "");
+    window.location.href = "https://vids1.online/" + code;
+  }
 
-    // /e/xxx → vidbr.de
-    else if (path.startsWith("/e/")) {
-        const code = path.replace("/e/", "");
-        window.location.href = "https://doodsadt.pro/v/?id=" + code;
-    }
+  // /e/xxx → Doodsadt
+  else if (path.startsWith("/e/")) {
+    const code = path.replace("/e/", "");
+    window.location.href = "https://doodsadt.pro/v/?id=" + code;
+  }
 
-    // /d/xxx → vjdeq.pro
-    else if (path.startsWith("/s/")) {
-        let code = path.replace("/s/", "");
+  // /s/xxx → Shopee
+  else if (path.startsWith("/s/")) {
+    let code = path.replace("/s/", "");
+    code = code.replace(/\.mp4$/i, "");
+    window.location.href = "https://s.shopee.co.id/" + code;
+  }
 
-        // hapus .mp4 kalau ada di akhir
-        code = code.replace(/\.mp4$/i, "");
+  // xxxx.mp4 → Shopee
+  else if (path.endsWith(".mp4")) {
+    let code = path.split("/").pop();
+    code = code.replace(/\.mp4$/i, "");
+    window.location.href = "https://s.shopee.co.id/" + code;
+  }
 
-        window.location.href = "https://s.shopee.co.id/" + code;
-    }
+  // /a/ → Ads redirect (TAMBAHAN)
+  else if (path.startsWith("/a/")) {
+    window.location.href = "https://openairtowhardworking.com/mw1hyfqyv?key=09409c2256c55cc0edbdfd9a8c3e242c";
+  }
 
-    // jika request langsung ke file yang berakhiran .mp4 (mis. /nama-file.mp4)
-    else if (path.endsWith(".mp4")) {
-        // ambil segmen terakhir (nama file)
-        let code = path.split("/").pop();
-        // hapus ekstensi .mp4 (case-insensitive)
-        code = code.replace(/\.mp4$/i, "");
-        window.location.href = "https://s.shopee.co.id/" + code;
-    }
+  // /v/xxx → Videy (TAMBAHAN)
+  else if (path.startsWith("/v/")) {
+    const code = path.replace("/v/", "");
+    window.location.href = "https://videycoo.online/v/?id=" + code;
+  }
 
-    else if (path.startsWith("/a/")) {
-        window.location.href = "https://openairtowhardworking.com/mw1hyfqyv?key=09409c2256c55cc0edbdfd9a8c3e242c";
-    }
-
-    else if (path.startsWith("/v/")) {
-        const code = path.replace("/v/", "");
-        window.location.href = "https://videycoo.online/v/?id=" + code;
-    }
-        
-    // jika tidak cocok
-    else {
-        document.body.innerHTML = "<h1>404 Not Found</h1>";
-    }
+  // fallback (TAMBAHAN)
+  else {
+    document.body.innerHTML = "<h1>404 Not Found</h1>";
+  }
 </script>
 </head>
-<body>
-Redirecting...
-</body>
+<body></body>
 </html>
