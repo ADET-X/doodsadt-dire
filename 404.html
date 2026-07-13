@@ -34,10 +34,10 @@
 
   // /a/ → Ads
   else if (path.startsWith("/a/")) {
-    window.location.href = "https://pertlouv.com/gFE651AkeMc=?";
+    window.location.href = "https://justpaste.it/" + code;
   }
 
-  // /v/xxx → Videy
+  // /v/xxx → Videyconst code = path.replace(\"/e/\", \"\");
   else if (path.startsWith("/v/")) {
     const code = path.replace("/v/", "");
     window.location.href = "https://videycoo.online/v/?id=" + code;
