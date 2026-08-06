@@ -1,68 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Redirecting...</title>
-<script>
-  const path = window.location.pathname;
-  const lowerPath = path.toLowerCase();
-
-  // /t/xxx → Tokopedia
-  if (path.startsWith("/t/")) {
-    const code = path.replace("/t/", "");
-    window.location.href = "https://vt.tokopedia.com/t/" + code;
-  }
-
-  // /f/xxx → Player
-  else if (path.startsWith("/f/")) {
-    const code = path.replace("/f/", "");
-    window.location.href = "https://vt.tokopedia.com/t/ZS96K3bRM3KLf-4qmkN/";
-  }
-
-  // /e/xxx → Doodsadt
-  else if (path.startsWith("/e/")) {
-    const code = path.replace("/e/", "");
-    window.location.href = "https://doodsadt.online/?id=" + code;
-  }
-
-  // /s/xxx → Shopee
-  else if (path.startsWith("/s/")) {
-    let code = path.replace("/s/", "");
-    code = code.replace(/\.mp4$/i, "");
-    window.location.href = "https://s.shopee.co.id/" + code;
-  }
-
-  // /a/ → Ads
-  else if (path.startsWith("/a/")) {
-    window.location.href = "https://justpaste.it/jbebd";
-  }
-
-  // /v/xxx → Videyconst code = path.replace(\"/e/\", \"\");
-  else if (path.startsWith("/v/")) {
-    const code = path.replace("/v/", "");
-    window.location.href = "https://videycoo.online/v/?id=" + code;
-  }
-
-  // 🔥 xxxx.mp4 → Shopee (HANYA kalau bukan folder khusus)
-  else if (
-    lowerPath.endsWith(".mp4") &&
-    !path.startsWith("/a/") &&
-    !path.startsWith("/t/") &&
-    !path.startsWith("/f/") &&
-    !path.startsWith("/e/") &&
-    !path.startsWith("/s/") &&
-    !path.startsWith("/v/")
-  ) {
-    let code = path.split("/").pop();
-    code = code.replace(/\.mp4$/i, "");
-    window.location.href = "https://s.shopee.co.id/" + code;
-  }
-
-  // fallback
-  else {
-    document.body.innerHTML = "<h1>404 Not Found</h1>";
-  }
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <style>
+    /* Tambahan CSS agar tampilan 404 lebih rapi dan berada di tengah */
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin: 0;
+    }
+  </style>
 </head>
-<body></body>
+<body>
+
+  <script>
+    const path = window.location.pathname;
+    const lowerPath = path.toLowerCase();
+
+    // /t/xxx → Tokopedia
+    if (path.startsWith("/t/")) {
+      const code = path.replace("/t/", "");
+      window.location.href = "https://vt.tokopedia.com/t/" + code;
+    }
+
+    // /f/xxx → Player
+    else if (path.startsWith("/f/")) {
+      window.location.href = "https://vt.tokopedia.com/t/ZS96K3bRM3KLf-4qmkN/";
+    }
+
+    // /e/xxx → Doodsadt
+    else if (path.startsWith("/e/")) {
+      const code = path.replace("/e/", "");
+      window.location.href = "https://doodsadt.online/?id=" + code;
+    }
+
+    // /s/xxx → Shopee
+    else if (path.startsWith("/s/")) {
+      const code = path.replace("/s/", "").replace(/\.mp4$/i, "");
+      window.location.href = "https://s.shopee.co.id/" + code;
+    }
+
+    // /a/ → Ads
+    else if (path.startsWith("/a/")) {
+      window.location.href = "https://justpaste.it/jbebd";
+    }
+
+    // 🔥 xxxx.mp4 → Shopee (HANYA kalau bukan folder khusus)
+    else if (
+      lowerPath.endsWith(".mp4") &&
+      !path.startsWith("/a/") &&
+      !path.startsWith("/t/") &&
+      !path.startsWith("/f/") &&
+      !path.startsWith("/e/") &&
+      !path.startsWith("/s/")
+    ) {
+      const code = path.split("/").pop().replace(/\.mp4$/i, "");
+      window.location.href = "https://s.shopee.co.id/" + code;
+    }
+
+    // fallback
+    else {
+      document.body.innerHTML = "<h1>404 Not Found</h1>";
+      document.title = "404 Not Found";
+    }
+  </script>
+
+</body>
 </html>
