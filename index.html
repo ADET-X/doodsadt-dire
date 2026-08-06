@@ -1,10 +1,226 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link Generator</title>
+  <style>
+    :root {
+      --primary: #ee4d2d;
+      --primary-hover: #d73d20;
+      --bg: #f8f9fa;
+      --text: #333;
+      --border: #ddd;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+      background-color: #fff;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: var(--primary);
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .result-group {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+      display: none;
+    }
+
+    .copy-btn {
+      margin-top: 10px;
+      background-color: #28a745;
+    }
+
+    .copy-btn:hover {
+      background-color: #218838;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
-Redirect handler active.
+
+  <div class="card">
+    <h2>Link Generator</h2>
+    
+    <div class="form-group">
+      <label for="domainSelect">Pilih Domain Tujuan:</label>
+      <select id="domainSelect">
+        <!-- Anda bisa menambahkan atau menghapus domain di bawah ini -->
+        <option value="https://mp4vid.ink">mp4vid.ink</option>
+        <option value="https://doodst.online">doodst.online</option>
+        <option value="https://cdn2videy.cc">cdn2videy.cc</option>
+        <option value="https://cdn2.videyc.online">cdn2.videyc.online</option>
+        <option value="https://videyc.online">videyc.online</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="shopeeLink">Masukkan Link / Kode:</label>
+      <input type="text" id="shopeeLink" placeholder="https://s.shopee.co.id/4LIKZhypJg" autocomplete="off">
+    </div>
+    
+    <button onclick="generateLink()">Buat Link .mp4</button>
+
+    <div class="result-group" id="resultGroup">
+      <label for="generatedLink">Link Baru Anda:</label>
+      <input type="text" id="generatedLink" readonly>
+      <button class="copy-btn" onclick="copyToClipboard()">Salin Link</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Link berhasil disalin!</div>
+
+  <script>
+    function generateLink() {
+      const input = document.getElementById('shopeeLink').value.trim();
+      const selectedDomain = document.getElementById('domainSelect').value;
+
+      if (!input) {
+        alert('Harap masukkan link atau kode terlebih dahulu!');
+        return;
+      }
+
+      let code = "";
+
+      // Memisahkan kode dari link lengkap Shopee
+      if (input.includes('s.shopee.co.id/')) {
+        try {
+          const parts = input.split('s.shopee.co.id/');
+          let rawCode = parts[1];
+          // Membersihkan parameter seperti ?share_channel_code=xxx dan slash /
+          code = rawCode.split('?')[0].replace('/', ''); 
+        } catch (e) {
+          alert('Format link tidak valid!');
+          return;
+        }
+      } else {
+        // Jika yang dimasukkan hanya kodenya saja
+        code = input;
+      }
+
+      if (!code) {
+        alert('Kode tidak ditemukan dari link tersebut!');
+        return;
+      }
+      
+      // Menggabungkan domain yang dipilih, kode, dan akhiran .mp4
+      const finalLink = `${selectedDomain}/${code}.mp4`;
+
+      // Menampilkan hasil
+      document.getElementById('generatedLink').value = finalLink;
+      document.getElementById('resultGroup').style.display = 'block';
+    }
+
+    function copyToClipboard() {
+      const copyText = document.getElementById("generatedLink");
+      
+      navigator.clipboard.writeText(copyText.value).then(() => {
+        showToast();
+      }).catch(err => {
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        showToast();
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+  </script>
+
 </body>
 </html>
