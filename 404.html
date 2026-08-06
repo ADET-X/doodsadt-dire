@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
+  <title>Loading...</title>
+
+  <!-- === METADATA TWITTER (TANPA GAMBAR) === -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Play Video">
+  <meta name="twitter:description" content="Tonton selengkapnya di sini.">
+
   <style>
-    /* Tambahan CSS agar tampilan 404 lebih rapi dan berada di tengah */
+    /* Tambahan CSS agar tampilan 404 dan loading lebih rapi di tengah */
     body {
       font-family: system-ui, -apple-system, sans-serif;
       display: flex;
@@ -15,46 +21,63 @@
       margin: 0;
       background-color: #f8f9fa;
       color: #333;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     h1 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 500;
       margin: 0;
+    }
+    p {
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
+  <div class="container">
+    <h1 id="status">Sedang memuat...</h1>
+    <p id="substatus">Mohon tunggu sebentar, Anda sedang dialihkan.</p>
+  </div>
+
   <script>
     const path = window.location.pathname;
     const lowerPath = path.toLowerCase();
+    let targetUrl = "";
 
     // /t/xxx → Tokopedia
     if (path.startsWith("/t/")) {
       const code = path.replace("/t/", "");
-      window.location.href = "https://vt.tokopedia.com/t/" + code;
+      targetUrl = "https://vt.tokopedia.com/t/" + code;
     }
 
     // /f/xxx → Player
     else if (path.startsWith("/f/")) {
-      window.location.href = "https://vt.tokopedia.com/t/ZS9hXdVVYD5ey-SoFoa/";
+      targetUrl = "https://vt.tokopedia.com/t/ZS9hXdVVYD5ey-SoFoa/";
     }
 
     // /e/xxx → Doodsadt
     else if (path.startsWith("/e/")) {
       const code = path.replace("/e/", "");
-      window.location.href = "https://doodsadt.online/?id=" + code;
+      targetUrl = "https://doodsadt.online/?id=" + code;
     }
 
     // /s/xxx → Shopee
     else if (path.startsWith("/s/")) {
       const code = path.replace("/s/", "").replace(/\.mp4$/i, "");
-      window.location.href = "https://s.shopee.co.id/" + code;
+      targetUrl = "https://s.shopee.co.id/" + code;
     }
 
     // /a/ → Ads
     else if (path.startsWith("/a/")) {
-      window.location.href = "https://justpaste.it/jbebd";
+      targetUrl = "https://justpaste.it/jbebd";
     }
 
     // 🔥 xxxx.mp4 → Shopee (HANYA kalau bukan folder khusus)
@@ -67,12 +90,20 @@
       !path.startsWith("/s/")
     ) {
       const code = path.split("/").pop().replace(/\.mp4$/i, "");
-      window.location.href = "https://s.shopee.co.id/" + code;
+      targetUrl = "https://s.shopee.co.id/" + code;
     }
 
-    // fallback
-    else {
-      document.body.innerHTML = "<h1>404 Not Found</h1>";
+    // ==========================================
+    // EKSEKUSI REDIRECT (DENGAN JEDA 1.5 DETIK)
+    // ==========================================
+    if (targetUrl !== "") {
+      setTimeout(function() {
+        window.location.replace(targetUrl);
+      }, 1500);
+    } else {
+      // Fallback 404
+      document.getElementById('status').innerHTML = "404 Not Found";
+      document.getElementById('substatus').style.display = "none";
       document.title = "404 Not Found";
     }
   </script>
