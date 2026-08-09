@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Link Generator</title>
+  
+  <!-- Optimasi SEO agar mudah dicari di Google -->
+  <title>Generator Shortlink Shopee</title>
+  <meta name="description" content="Generator Shortlink Shopee untuk memodifikasi dan membagikan link afiliasi Shopee dengan mudah. Bisa kostumisasi dengan akhiran .mp4.">
+  <meta name="keywords" content="generator shortlink shopee, shopee link generator, ubah link shopee mp4, shopee affiliate">
+  <meta name="author" content="Link Generator">
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Play Video">
+  <meta name="twitter:title" content="Generator Shortlink Shopee">
   <meta name="twitter:description" content="Tonton selengkapnya di sini.">
   
   <style>
@@ -40,11 +45,12 @@
       max-width: 400px;
     }
 
-    h2 {
+    h1 {
       margin-top: 0;
       margin-bottom: 20px;
       font-size: 1.5rem;
       text-align: center;
+      color: var(--primary);
     }
 
     .form-group {
@@ -76,6 +82,26 @@
 
     select {
       cursor: pointer;
+    }
+
+    /* Styling untuk Checkbox */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-group input {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin-bottom: 0;
+      cursor: pointer;
+      font-weight: normal;
     }
 
     button {
@@ -134,12 +160,12 @@
 <body>
 
   <div class="card">
-    <h2>Link Generator</h2>
+    <!-- Mengubah heading agar terbaca oleh Google sesuai kata kunci -->
+    <h1>Generator Shortlink Shopee</h1>
     
     <div class="form-group">
       <label for="domainSelect">Pilih Domain Tujuan:</label>
       <select id="domainSelect">
-        <!-- Anda bisa menambahkan atau menghapus domain di bawah ini -->
         <option value="https://mp4vid.ink">mp4vid.ink</option>
         <option value="https://doodst.online">doodst.online</option>
         <option value="https://cdn2videy.cc">cdn2videy.cc</option>
@@ -152,8 +178,14 @@
       <label for="shopeeLink">Masukkan Link / Kode:</label>
       <input type="text" id="shopeeLink" placeholder="https://s.shopee.co.id/4LIKZhypJg" autocomplete="off">
     </div>
+
+    <!-- Fitur Checkbox untuk .mp4 -->
+    <div class="checkbox-group">
+      <input type="checkbox" id="useMp4" checked>
+      <label for="useMp4">Tambahkan akhiran <strong>.mp4</strong> pada link</label>
+    </div>
     
-    <button onclick="generateLink()">Buat Link .mp4</button>
+    <button onclick="generateLink()">Buat Link Baru</button>
 
     <div class="result-group" id="resultGroup">
       <label for="generatedLink">Link Baru Anda:</label>
@@ -168,6 +200,7 @@
     function generateLink() {
       const input = document.getElementById('shopeeLink').value.trim();
       const selectedDomain = document.getElementById('domainSelect').value;
+      const useMp4 = document.getElementById('useMp4').checked; // Mengecek status checkbox
 
       if (!input) {
         alert('Harap masukkan link atau kode terlebih dahulu!');
@@ -197,8 +230,9 @@
         return;
       }
       
-      // Menggabungkan domain yang dipilih, kode, dan akhiran .mp4
-      const finalLink = `${selectedDomain}/${code}.mp4`;
+      // Menggabungkan domain yang dipilih, kode, dan akhiran .mp4 (jika diceklis)
+      const extension = useMp4 ? ".mp4" : "";
+      const finalLink = `${selectedDomain}/${code}${extension}`;
 
       // Menampilkan hasil
       document.getElementById('generatedLink').value = finalLink;
