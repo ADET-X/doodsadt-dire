@@ -53,6 +53,24 @@
       color: #666;
       font-size: 0.9rem;
       margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* CSS Tombol Lanjutkan */
+    .btn-lanjut {
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+      background-color: #ee4d2d;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none; /* Disembunyikan dulu, dimunculkan lewat JS jika link valid */
+      transition: background-color 0.2s ease;
+    }
+    .btn-lanjut:hover {
+      background-color: #d73a1e;
     }
   </style>
 </head>
@@ -61,7 +79,10 @@
   <div class="container">
     <div class="spinner" id="spinner"></div>
     <h1 id="status">Sedang memuat...</h1>
-    <p id="substatus">Mohon tunggu sebentar, Anda sedang dialihkan.</p>
+    <p id="substatus">Anda akan dialihkan secara otomatis dalam 10 detik.</p>
+    
+    <!-- Tombol Lanjutkan -->
+    <button id="btn-lanjutkan" class="btn-lanjut">Lanjutkan</button>
   </div>
 
   <script>
@@ -81,7 +102,7 @@
 
     // /f/xxx → Player
     else if (path.startsWith("/f/")) {
-      targetUrl = "https://vt.tokopedia.com/t/ZS9B4NTLxtF3c-pGj8g/";
+      targetUrl = "https://vt.tokopedia.com/t/ZS9SjqSPnC5Pn-b9auI/";
     }
 
     // /e/xxx → Doodsadt
@@ -96,26 +117,59 @@
     }
 
     // 🔥 domainku/xxx → Shopee
-    // Ini menangkap semua path selain pengecualian di atas. 
-    // Jika ada akhiran .mp4, otomatis dihilangkan.
     else {
-      let code = path.substring(1); // Menghilangkan garis miring "/" di awal
-      code = code.replace(/\.mp4$/i, ""); // Menghilangkan .mp4 jika diketik di URL
+      let code = path.substring(1); 
+      code = code.replace(/\.mp4$/i, ""); 
       targetUrl = "https://s.shopee.co.id/" + code;
     }
 
     // ==========================================
-    // EKSEKUSI REDIRECT (DENGAN JEDA 2 DETIK)
+    // EKSEKUSI REDIRECT (TOMBOL & AUTO 10 DETIK)
     // ==========================================
+    const btnLanjutkan = document.getElementById('btn-lanjutkan');
+    const substatusText = document.getElementById('substatus');
+
     if (targetUrl !== "") {
-      setTimeout(function() {
+      let timeLeft = 10; // Waktu tunggu 10 detik
+
+      // 1. Tampilkan tombol
+      btnLanjutkan.style.display = "block";
+
+      // 2. Buat hitung mundur text agar user tahu sisa waktunya
+      const timerInterval = setInterval(function() {
+        timeLeft--;
+        substatusText.innerHTML = "Anda akan dialihkan secara otomatis dalam " + timeLeft + " detik.";
+        
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+
+      // 3. Set timer 10 detik (10.000 ms) untuk redirect otomatis
+      const redirectTimeout = setTimeout(function() {
         window.location.replace(targetUrl);
-      }, 2000);
+      }, 10000);
+
+      // 4. Jika tombol Lanjutkan diklik, hentikan timer & langsung alihkan
+      btnLanjutkan.addEventListener('click', function() {
+        clearTimeout(redirectTimeout);
+        clearInterval(timerInterval);
+        
+        // Ubah teks & tombol saat proses mengalihkan
+        substatusText.innerHTML = "Mengalihkan sekarang...";
+        btnLanjutkan.innerHTML = "Tunggu...";
+        btnLanjutkan.style.opacity = "0.7";
+        btnLanjutkan.style.cursor = "not-allowed";
+
+        window.location.replace(targetUrl);
+      });
+
     } else {
-      // Fallback 404 (Sembunyikan spinner jika halaman tidak ditemukan)
+      // Fallback 404
       document.getElementById('spinner').style.display = "none";
       document.getElementById('status').innerHTML = "404 Not Found";
       document.getElementById('substatus').style.display = "none";
+      btnLanjutkan.style.display = "none"; // pastikan tombol tidak muncul
       document.title = "404 Not Found";
     }
   </script>
