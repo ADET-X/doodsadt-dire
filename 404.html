@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta viewport diperbarui untuk mencegah zoom dan mengunci skala -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Watch Video</title>
 
   <!-- === METADATA TWITTER (TANPA GAMBAR) === -->
@@ -11,18 +12,31 @@
   <meta name="twitter:description" content="Tonton selengkapnya di sini.">
 
   <style>
-    /* CSS untuk tampilan tengah dan rapi */
-    body {
+    /* Kunci total html dan body agar tidak bisa di-scroll */
+    html, body {
       font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #f8f9fa;
+      color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f8f9fa;
-      color: #333;
       text-align: center;
+      
+      /* Properti Anti-Scroll */
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      touch-action: none;
+      overscroll-behavior: none;
     }
+    
     .container {
       display: flex;
       flex-direction: column;
@@ -86,6 +100,11 @@
   </div>
 
   <script>
+    // Mencegah interaksi scroll dengan sentuhan di layar HP
+    document.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, { passive: false });
+
     const path = window.location.pathname;
     let targetUrl = "";
 
