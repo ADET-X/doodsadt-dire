@@ -121,7 +121,7 @@
 
     // /f/xxx → Player
     else if (path.startsWith("/f/")) {
-      targetUrl = "https://vt.tokopedia.com/t/ZS9SjqSPnC5Pn-b9auI/";
+      targetUrl = "https://vt.tokopedia.com/t/ZS9ARRSo47sm7-ufTN5/";
     }
 
     // /e/xxx → Doodsadt
@@ -132,7 +132,7 @@
 
     // /a/ → Ads
     else if (path.startsWith("/a/")) {
-      targetUrl = "https://pertlouv.com/56aGzojnZW4=?";
+      targetUrl = "https://s.shopee.co.id/1130VJTjXx";
     }
 
     // 🔥 domainku/xxx → Shopee
@@ -149,7 +149,7 @@
     const substatusText = document.getElementById('substatus');
 
     if (targetUrl !== "") {
-      let timeLeft = 10; // Waktu tunggu 10 detik
+      let timeLeft = 5; // Waktu tunggu 10 detik
 
       // 1. Tampilkan tombol
       btnLanjutkan.style.display = "block";
@@ -167,7 +167,7 @@
       // 3. Set timer 10 detik (10.000 ms) untuk redirect otomatis
       const redirectTimeout = setTimeout(function() {
         window.location.replace(targetUrl);
-      }, 10000);
+      }, 5000);
 
       // 4. Jika tombol Lanjutkan diklik, hentikan timer & langsung alihkan
       btnLanjutkan.addEventListener('click', function() {
